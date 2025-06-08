@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trivia Forense</title>
+  <meta name="google-adsense-account" content="ca-pub-3585447342651323">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3585447342651323"
+     crossorigin="anonymous"></script>
+    <style>
+    body { font-family: Arial, sans-serif; background: #111; color: #fff; text-align: center; padding: 20px; }
+    .question-card { background: #222; padding: 20px; border-radius: 10px; margin: 20px auto; width: 90%; max-width: 600px; }
+    .question { font-size: 1.2rem; margin-bottom: 15px; }
+    .option { display: block; margin: 10px 0; padding: 10px; background: #333; border: none; color: #fff; border-radius: 5px; cursor: pointer; transition: background 0.3s; }
+    .option:hover { background: #555; }
+    #score { font-size: 1.4rem; margin-top: 20px; }
+    #nextBtn { margin-top: 20px; padding: 10px 20px; font-size: 1rem; background: #4CAF50; border: none; color: white; border-radius: 5px; cursor: pointer; }
+    #nextBtn:hover { background: #45a049; }
+  </style>
+</head>
+<body> <ins class="adsbygoogle"
+      style="display:block; margin: 20px auto;"
+      data-ad-client="ca-pub-3585447342651323"
+      data-ad-slot="3148921796"  
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+  <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+  <h1>Trivia Forense</h1>
+  <div class="question-card" id="quiz">
+    <div class="question" id="question"></div>
+    <div id="options"></div>
+    <button id="nextBtn" onclick="nextQuestion()" style="display:none;">Siguiente</button>
+    <div id="score"></div>
+</div><div id="ad-banner" style="margin: 30px auto; width: 468px; height: 60px; background: #444; color: white; 
+    display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 18px; font-weight: bold; box-shadow: 0 0 8px rgba(0,0,0,0.6);">
+  Publicidad Aquí
+</div>
+
+  <script>
+    const questions = [
+      {
+        question: "¿Cuál es el papel de la entomología forense en la investigación criminal?",
+        options: [
+          "Determinar la causa exacta de muerte",
+          "Estimar el intervalo post mortem mediante el estudio de insectos",
+          "Analizar rastros de ADN en objetos personales",
+          "Identificar al agresor a partir de huellas digitales"
+        ],
+        correct: 1
+      },
+      {
+        question: "¿Qué se busca evitar al utilizar una Cámara Gesell para entrevistar a una víctima menor de edad?",
+        options: [
+          "Que el sospechoso reconozca al testigo",
+          "La contaminación de evidencia física",
+          "La revictimización durante el proceso judicial",
+          "La intervención del abogado defensor"
+        ],
+        correct: 2
+      },
+      {
+        question: "¿Cuál es una señal común de abuso sexual infantil según la psicología forense?",
+        options: [
+          "Somnolencia constante",
+          "Comportamientos regresivos como orinarse en la cama",
+          "Interés en actividades deportivas",
+          "Ausencia de llanto en entrevistas"
+        ],
+        correct: 1
+      },
+      {
+        question: "¿Qué tipo de evidencia es una huella digital en la escena del crimen?",
+        options: ["Circunstancial", "Directa", "Física", "Testimonial"],
+        correct: 2
+      },
+      {
+        question: "¿Cuál es un principio básico de la ética profesional en criminología?",
+        options: [
+          "Juzgar al sospechoso según sus antecedentes",
+          "Mantener la imparcialidad durante la investigación",
+          "Proteger a la institución por encima de la verdad",
+          "Hacer justicia aunque se falsifiquen pruebas"
+        ],
+        correct: 1
+      },
+      {
+        question: "¿Qué indica la presencia de larvas de diferentes tamaños en un cadáver?",
+        options: [
+          "El cadáver fue envenenado",
+          "El cadáver fue manipulado después de la muerte",
+          "Diferentes etapas del ciclo de descomposición",
+          "El lugar de hallazgo no es la escena original"
+        ],
+        correct: 2
+      },
+      {
+        question: "¿Cuál es el objetivo principal de una autopsia forense?",
+        options: [
+          "Localizar objetos extraños en el cuerpo",
+          "Establecer el motivo del crimen",
+          "Determinar la causa y manera de la muerte",
+          "Identificar a los sospechosos"
+        ],
+        correct: 2
+      },
+      {
+        question: "¿Qué área de estudio analiza la conducta criminal desde el punto de vista psicológico?",
+        options: ["Victimología", "Psicología forense", "Balística", "Entomología"],
+        correct: 1
+      },
+      {
+        question: "¿Cuál de las siguientes acciones representa una violación a la cadena de custodia?",
+        options: [
+          "Tomar fotografías en la escena del crimen",
+          "Entregar la evidencia al laboratorio sin registro previo",
+          "Etiquetar adecuadamente cada elemento recolectado",
+          "Almacenar la evidencia en bolsas selladas"
+        ],
+        correct: 1
+      },
+      {
+        question: "¿Qué instrumento se usa comúnmente para medir el grado de rigidez cadavérica?",
+        options: [
+          "Regla forense",
+          "Cronómetro forense",
+          "Escala de Livor Mortis",
+          "Escala de rigidez de Thanatología"
+        ],
+        correct: 3
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function showQuestion() {
+      document.getElementById('nextBtn').style.display = 'none';
+      const q = questions[currentQuestion];
+      document.getElementById('question').innerText = q.question;
+      const optionsDiv = document.getElementById('options');
+      optionsDiv.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.innerText = opt;
+        btn.className = 'option';
+        btn.onclick = () => checkAnswer(i);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(i) {
+      const q = questions[currentQuestion];
+      const options = document.querySelectorAll('.option');
+      options.forEach((btn, index) => {
+        btn.disabled = true;
+        if (index === q.correct) {
+          btn.style.background = '#4CAF50';
+        } else if (index === i) {
+          btn.style.background = '#f44336';
+        }
+      });
+      if (i === q.correct) score++;
+      document.getElementById('nextBtn').style.display = 'inline-block';
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        document.getElementById('quiz').innerHTML = `<h2>Juego terminado</h2><p>Tu puntaje: ${score} de ${questions.length}</p>`;
+      }
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
+
